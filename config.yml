@@ -1,0 +1,21 @@
+# ColorChat 聊天颜色插件
+# 作者：Month_Light
+
+# 开源 GitHub -> https://www.github.com/MoonLakeDev/ColorChat
+# 推荐使用 Notepad++ 编辑器，如果发现使用 UTF-8 编码后出现乱码
+# 请将这个转换到 ASCLL 编码进行编辑应该就能解决乱码问题
+
+# 插件版本号
+version: 1.0
+
+# 插件的前缀
+Prefix: '&f[&cC&4o&6l&eo&ar&bC&9h&5a&dt&f] '
+
+# 插件消息配置
+Messages:
+  # 注意可以修改文本，但是不要修改里面的格式符 %1$s，%2$s 等
+  NoPermission: '你没有使用这个命令的权限.'
+  NoConsoleUse: '控制台不能使用这个命令.'
+  ErrorCommandArgs: '未知的命令参数，请使用: %1$s'
+  ErrorChatColorValue: '错误的颜色字符，格式应使用 &1&&11&r、&6&&66&r、&n&&nn'
+  SetColorChatContent: '已将聊天颜色成功改变!!!'
