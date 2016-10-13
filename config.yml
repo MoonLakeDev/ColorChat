@@ -6,10 +6,13 @@
 # 请将这个转换到 ASCLL 编码进行编辑应该就能解决乱码问题
 
 # 插件版本号
-version: 1.0
+version: 1.0.1
 
 # 插件的前缀
 Prefix: '&f[&cC&4o&6l&eo&ar&bC&9h&5a&dt&f] '
+
+# 随机颜色包含的字符 0-9a-f
+Random: '0123456789abcdef'
 
 # 插件消息配置
 Messages:
@@ -18,4 +21,7 @@ Messages:
   NoConsoleUse: '控制台不能使用这个命令.'
   ErrorCommandArgs: '未知的命令参数，请使用: %1$s'
   ErrorChatColorValue: '错误的颜色字符，格式应使用 &1&&11&r、&6&&66&r、&n&&nn'
-  SetColorChatContent: '已将聊天颜色成功改变!!!'
+  ErrorColorChatRandom: '请先使用 /clearcolor 清除之前的随机聊天颜色后再进行设置.'
+  SetColorChatContent: '已将聊天颜色成功改变！！！'
+  SetColorChatRandomContent: '已将聊天颜色成功改变为随机！！！'
+  ClearColorChatContent: '已将聊天颜色成功清除！'

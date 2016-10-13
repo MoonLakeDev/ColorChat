@@ -25,5 +25,6 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        getMain().getManager().close(player);
     }
 }

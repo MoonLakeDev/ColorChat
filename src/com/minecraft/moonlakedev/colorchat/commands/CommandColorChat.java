@@ -28,18 +28,27 @@ public class CommandColorChat implements CommandExecutor {
             sender.sendMessage(getMain().getMessage("NoConsoleUse"));
             return true;
         }
-        if(args.length != 1) {
-            sender.sendMessage(getMain().getMessage("ErrorCommandArgs", "/colorchat <&颜色或样式字符>"));
+        Player player = (Player) sender;
+        if(!player.hasPermission("colorchat.use")) {
+            player.sendMessage(getMain().getMessage("NoPermission"));
             return true;
         }
-        if(!args[0].matches("&([1-9a-fA-Fl-oL-O]?)")) {
-            sender.sendMessage(getMain().getMessage("ErrorChatColorValue"));
+        if(args.length != 1) {
+            player.sendMessage(getMain().getMessage("ErrorCommandArgs", "/colorchat <&颜色或样式字符>"));
+            return true;
+        }
+        if(getMain().getManager().isRandomColorChat(player)) {
+            player.sendMessage(getMain().getMessage("ErrorColorChatRandom"));
+            return true;
+        }
+        if(!args[0].matches("&([0-9a-fA-Fl-oL-O]?)")) {
+            player.sendMessage(getMain().getMessage("ErrorChatColorValue"));
             return true;
         }
         ChatColor value = ChatColor.getByChar(args[0].charAt(1));
         if(value != null) {
-            sender.sendMessage(getMain().getMessage("SetColorChatContent"));
-            getMain().getManager().setColorChatType((Player) sender, ColorChatType.SPECIFY, value);
+            player.sendMessage(getMain().getMessage("SetColorChatContent"));
+            getMain().getManager().setColorChatType(player, ColorChatType.SPECIFY, value);
         }
         return true;
     }

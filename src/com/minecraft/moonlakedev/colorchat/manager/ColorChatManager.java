@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by MoonLake on 2016/10/12.
@@ -14,6 +15,8 @@ public class ColorChatManager {
 
     private Map<String, ColorChatType> colorChatTypeMap;
     private Map<String, String> colorChatTypeSpecifyMap;
+    private char[] RANDOM_COLOR = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private final Random RANDOM = new Random();
     private static ColorChatManager colorChatManagerInstance;
 
     private ColorChatManager() {
@@ -27,29 +30,41 @@ public class ColorChatManager {
         return colorChatManagerInstance;
     }
 
+    public void setRandomColorChars(String random) {
+        if(random == null)
+            return;
+        this.RANDOM_COLOR = random.toCharArray();
+    }
+
     public void setColorChatType(Player player, ColorChatType type, ChatColor value) {
         if(!colorChatTypeMap.containsKey(player.getName()))
             colorChatTypeMap.put(player.getName(), type);
         if(type != ColorChatType.RANDOM) {
             String oldValue = getColorChatType(player);
 
-            // debug
-            System.out.println("oldValue: " + oldValue);
-
-            if(oldValue.matches("&([1-9a-fA-F]?)")) {
+            if(oldValue.matches("&([0-9a-fA-F]?)")) {
                 if (value.isFormat())
                     colorChatTypeSpecifyMap.put(player.getName(), oldValue + "&" + value.getChar());
                 else
                     colorChatTypeSpecifyMap.put(player.getName(), "&" + value.getChar());
             }
-            else if(oldValue.matches("&([1-9a-fA-F]?)&([l-oL-O]?)")) {
+            else if(oldValue.matches("&([0-9a-fA-F]?)&([l-oL-O]?)")) {
                 if (value.isColor())
                     colorChatTypeSpecifyMap.put(player.getName(), "&" + value.getChar() + oldValue.substring(2, 4));
                 else
                     colorChatTypeSpecifyMap.put(player.getName(), oldValue.substring(0, 2) + "&" + value.getChar());
             }
-            System.out.println("newValue: " + getColorChatType(player));
         }
+        else {
+            if(colorChatTypeMap.containsKey(player.getName()))
+                colorChatTypeMap.put(player.getName(), type);
+            clearSpecify(player);
+        }
+    }
+
+    public void clearSpecify(Player player) {
+        if(colorChatTypeSpecifyMap.containsKey(player.getName()))
+            colorChatTypeSpecifyMap.remove(player.getName());
     }
 
     public String getColorChatType(Player player) {
@@ -75,7 +90,13 @@ public class ColorChatManager {
 
     private String formatRandomDeluxeChat(Player player, String deluxeChat) {
         deluxeChat = clearSrcColor(deluxeChat);
-        return null;
+
+        char[] srcChat = deluxeChat.toCharArray();
+        String temp = "";
+        for(char src : srcChat) {
+            temp += "&" + RANDOM_COLOR[RANDOM.nextInt(RANDOM_COLOR.length)] + src;
+        }
+        return temp;
     }
 
     private String clearSrcColor(String deluxeChat) {

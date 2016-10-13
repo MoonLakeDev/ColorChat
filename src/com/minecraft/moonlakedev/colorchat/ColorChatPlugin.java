@@ -4,6 +4,7 @@ import com.minecraft.moonlakedev.colorchat.commands.CommandClearColor;
 import com.minecraft.moonlakedev.colorchat.commands.CommandColorChat;
 import com.minecraft.moonlakedev.colorchat.commands.CommandRandomColor;
 import com.minecraft.moonlakedev.colorchat.listeners.DeluxeChatListener;
+import com.minecraft.moonlakedev.colorchat.listeners.PlayerListener;
 import com.minecraft.moonlakedev.colorchat.manager.ColorChatManager;
 import me.clip.deluxechat.DeluxeChat;
 import org.bukkit.ChatColor;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 public class ColorChatPlugin extends JavaPlugin {
 
     private String prefix;
+    private String random;
     private ColorChatManager manager;
 
     public ColorChatPlugin() {
@@ -33,19 +35,21 @@ public class ColorChatPlugin extends JavaPlugin {
         }
         this.initFolder();
         this.manager = ColorChatManager.instance();
+        this.manager.setRandomColorChars(random);
         this.getCommand("colorchat").setExecutor(new CommandColorChat(this));
         this.getCommand("clearcolor").setExecutor(new CommandClearColor(this));
         this.getCommand("randomcolor").setExecutor(new CommandRandomColor(this));
+        this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         this.getServer().getPluginManager().registerEvents(new DeluxeChatListener(this), this);
         this.getLogger().log(Level.INFO, "聊天颜色 ColorChat 插件 v" + getDescription().getVersion() + " 成功加载.");
     }
 
     @Override
     public void onDisable() {
+        getManager().close();
     }
 
     public String getMessage(String key, Object... args) {
-
         return toColor(prefix + String.format(getConfig().getString("Messages." + key, ""), args));
     }
 
@@ -63,6 +67,7 @@ public class ColorChatPlugin extends JavaPlugin {
         File config = new File(getDataFolder(), "config.yml");
         if(!config.exists())
             saveDefaultConfig();
+        this.random = getConfig().getString("Random", "0123456789abcdef");
         this.prefix = toColor(getConfig().getString("Prefix", "&f[&4C&co&6l&eo&ar&bC&9h&da&5t&f] "));
     }
 
