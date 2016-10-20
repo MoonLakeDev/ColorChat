@@ -1,6 +1,6 @@
 name: ColorChat
 main: com.minecraft.moonlakedev.colorchat.ColorChatPlugin
-version: 1.0.1
+version: 1.0.2
 author: Month_Light
 website: http://www.mcyszh.com
 depend: [DeluxeChat]

@@ -13,3 +13,8 @@ Minecraft MoonLakeDev Plugin By Month_Light
 * `/colorchat` - `colorchat.use`
 * `/clearcolor` - `colorchat.use`
 * `/randomcolor` - `colorchat.random`
+
+### 版本 v1.0.2 增加内容
+* `colorchat.scolor` - 如果玩家拥有此权限则可以将源消息输入的颜色应用（除 `/randomcolor`
+
+##

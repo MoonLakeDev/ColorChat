@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * Created by MoonLake on 2016/10/12.
@@ -17,6 +18,7 @@ public class ColorChatManager {
     private Map<String, String> colorChatTypeSpecifyMap;
     private char[] RANDOM_COLOR = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
     private final Random RANDOM = new Random();
+    private final Pattern SKIP_COLOR_STYLE = Pattern.compile("([\\u00A7&])[k-oK-OrR]");
     private static ColorChatManager colorChatManagerInstance;
 
     private ColorChatManager() {
@@ -84,12 +86,12 @@ public class ColorChatManager {
     }
 
     private String formatSpecifyDeluxeChat(Player player, String deluxeChat) {
-        deluxeChat = clearSrcColor(deluxeChat);
+        deluxeChat = clearSrcColor(player, deluxeChat);
         return getColorChatType(player) + deluxeChat;
     }
 
     private String formatRandomDeluxeChat(Player player, String deluxeChat) {
-        deluxeChat = clearSrcColor(deluxeChat);
+        deluxeChat = clearSrcColor(null, deluxeChat);
 
         char[] srcChat = deluxeChat.toCharArray();
         String temp = "";
@@ -99,7 +101,9 @@ public class ColorChatManager {
         return temp;
     }
 
-    private String clearSrcColor(String deluxeChat) {
+    private String clearSrcColor(Player player, String deluxeChat) {
+        if(player != null && player.hasPermission("colorchat.scolor"))
+            return deluxeChat == null ? "" : SKIP_COLOR_STYLE.matcher(deluxeChat).replaceAll("");
         return deluxeChat == null ? "" : ChatColor.stripColor(deluxeChat);
     }
 
