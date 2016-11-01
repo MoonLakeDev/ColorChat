@@ -34,18 +34,18 @@ public class CommandColorChat implements CommandExecutor {
             return true;
         }
         if(args.length != 1) {
-            player.sendMessage(getMain().getMessage("ErrorCommandArgs", "/colorchat <&颜色或样式字符>"));
+            player.sendMessage(getMain().getMessage("ErrorCommandArgs", "/colorchat <颜色或样式字符>"));
             return true;
         }
         if(getMain().getManager().isRandomColorChat(player)) {
             player.sendMessage(getMain().getMessage("ErrorColorChatRandom"));
             return true;
         }
-        if(!args[0].matches("&([0-9a-fA-Fl-oL-O]?)")) {
+        if(!args[0].matches("([0-9a-fA-Fl-oL-O]?)")) {
             player.sendMessage(getMain().getMessage("ErrorChatColorValue"));
             return true;
         }
-        ChatColor value = ChatColor.getByChar(args[0].charAt(1));
+        ChatColor value = ChatColor.getByChar(args[0].charAt(0));
         if(value != null) {
             player.sendMessage(getMain().getMessage("SetColorChatContent"));
             getMain().getManager().setColorChatType(player, ColorChatType.SPECIFY, value);
